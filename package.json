@@ -1,0 +1,14 @@
+{
+  "name": "pong",
+  "description": "Qwixx + Nodejs Muliplayer Pong",
+  "version": "0.0.1",
+  "main": "app.js",
+  "private": true,
+  "dependencies": {
+    "express": "^4.13.3",
+    "grunt": "^0.4.5",
+    "grunt-contrib-less": "^0.11.4",
+    "less": "^1.7.4",
+    "websocket": "^1.0.8"
+  }
+}

@@ -1,0 +1,18 @@
+.cell {
+	width: 20px;
+	height: 20px;
+	display: inline-block;
+	background: #fff;
+	text-align: center;
+	vertical-align: top;
+}
+
+#redRow .cell {
+	background: red;
+}
+#yellowRow .cell {
+	background: yellow;
+}
+.cell.disable {
+	background-color: #ddd!important;
+}
