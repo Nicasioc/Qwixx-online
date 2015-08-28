@@ -13,6 +13,37 @@
 #yellowRow .cell {
 	background: yellow;
 }
+#greeRow .cell {
+	background: green;
+}
+#blueRow .cell {
+	background: blue;
+}
 .cell.disable {
 	background-color: #ddd!important;
+}
+
+.dice {
+	width: 20px;
+	line-height: 20px;
+	display: inline-block;
+	text-align: center;
+	vertical-align: middle;
+	border-radius: 3px;
+	margin-right: 3px;
+	margin-top: 3px;
+	border: 1px solid #000;
+	text-shadow: 1px 1px #fff;
+}
+#red.dice {
+	background-color: red;
+}
+#yellow.dice {
+	background-color: yellow;
+}
+#green.dice {
+	background-color: green;
+}
+#blue.dice {
+	background-color: blue;
 }
