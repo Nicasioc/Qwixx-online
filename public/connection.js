@@ -2,7 +2,7 @@ function Connection(serverUrl) {
 	this.conn = new WebSocket(serverUrl);
 
 	this.conn.onopen = function(message) {
-		console.debug(message);
+		console.debug(message.type);
 	}
 
 }

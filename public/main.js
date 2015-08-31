@@ -1,5 +1,37 @@
+//http://www.nsv.de/spielregeln/qwixx-classic-english.pdf
+
 var connection = new Connection("ws://127.0.0.1:3000");
 
+function message(type, text) {
+		if (type) {
+			var msg = {
+				type: type,
+				text: text||null
+			}
+			return msg;
+		} else {
+			console.error("Text message must be defined");
+		}
+}
+
+/* Lobby */
+document.getElementById('playerReady').addEventListener("click", function(e) {
+	var btn = this.parentNode;
+	btn.classList.toggle("ready");
+	if ( btn.classList.contains("ready") ) {
+		connection.send( message("ready") );
+	} else {
+		connection.send( message("notReady") );
+	}
+});
+document.getElementById('startGame').addEventListener("click", function(e) {
+	connection.send( message("startCountDown") );
+})
+
+
+
+
+/* Board */
 function disableRows(htmlCollection, startIndex, endIndex) {
 
 	for (var i = startIndex; i < endIndex; i++) {
@@ -30,11 +62,9 @@ function selectPriceNumber() {
 	if ( this.parentNode.getElementsByClassName("selected").length > 4 ) {
 		this.classList.add("selected");
 		this.innerHTML = "X"
-		var msg = {
-			type: "removeColor",
-			text: this.parentNode.dataset.color
-		}
-		connection.send(msg);
+
+		connection.send( message("removeColor", this.parentNode.dataset.color) );
+
 		disableRows(cellNumberElCol, 0, cellNumberElCol.length)
 	}
 }
@@ -53,11 +83,7 @@ for (var i = 0; i < priceCells.length; i++) {
 
 /* click roll dice */
 document.getElementById('rollDices').addEventListener("click", function() {
-	var msg = {
-		type: "roll",
-		text: null
-	}
-	connection.send(msg);
+	connection.send(message("roll"));
 })
 
 connection.setOnmessage( function(event) {
@@ -79,6 +105,17 @@ connection.setOnmessage( function(event) {
 			var rowColorCells = rowColor.getElementsByClassName("cell");
 			console.log("cerrar "+msgJson.text);
 			disableRows(rowColorCells, 0, rowColorCells.length);
+			break;
+		case "playersReady":
+			console.log(msgJson.text);
+			document.getElementById("playerCounterNumber").innerHTML = msgJson.text;
+
+			if ( msgJson.text >= 2 ) {
+				document.getElementById("startGame").classList.remove("hidden");
+			} else {
+				document.getElementById("startGame").classList.add("hidden");
+			}
+
 			break;
 	}
 

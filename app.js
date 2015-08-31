@@ -4,6 +4,7 @@ var webSocketServer = require("websocket").server,
 
 var diceRoller = new DiceRoller();
 var connections = [];
+var readyPlayers = 0;
 
 var app = express();
 
@@ -25,6 +26,7 @@ wsServer = new webSocketServer({
 wsServer.on("request", function(request) {
 
 	var connection = request.accept(null, request.origin);
+	console.log( "Connection open" );
 
 
 	connection.on("message", function(message) {
@@ -53,6 +55,26 @@ wsServer.on("request", function(request) {
 				connections.forEach(function(item, index) {
 					item.send( JSON.stringify( msg ) );
 				})
+				break;
+			case "ready":
+				readyPlayers++;
+				var msg = {
+					type: "playersReady",
+					text: readyPlayers
+				};
+				connections.forEach(function(item, index) {
+					item.send( JSON.stringify( msg ) );
+				});
+				break;
+			case "notReady":
+				readyPlayers--;
+				var msg = {
+					type: "playersReady",
+					text: readyPlayers
+				};
+				connections.forEach(function(item, index) {
+					item.send( JSON.stringify( msg ) );
+				});
 				break;
 		}
 	})

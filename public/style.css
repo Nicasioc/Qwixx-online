@@ -1,3 +1,19 @@
+/* Lobby */
+#playerReadyBtn {
+	display: inline-block;
+	background-color: green;
+	color: #fff;
+	padding: 10px 20px;
+	text-decoration: none;
+	border-radius: 7px;
+	box-shadow: inset 0 0 6px #000, 2px 2px 1px #000;
+	text-shadow: 2px 2px 1px #000;
+}
+#playerReadyBtn.ready {
+	background-color: red;
+}
+
+/* Board */
 .cell {
 	width: 20px;
 	height: 20px;
@@ -47,3 +63,6 @@
 #blue.dice {
 	background-color: blue;
 }
+
+/* Utils */
+.hidden {display: none;}

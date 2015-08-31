@@ -7,97 +7,104 @@
 	<link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <a href="http://www.nsv.de/spielregeln/qwixx-classic-english.pdf" target="_blank">Rules</a>
-   <div id="table">
-     <div id="numbers1" class="numbers">
-     	<div class="cell cellHead">2</div>
-     	<div class="cell cellHead">3</div>
-     	<div class="cell cellHead">4</div>
-     	<div class="cell cellHead">5</div>
-     	<div class="cell cellHead">6</div>
-     	<div class="cell cellHead">7</div>
-     	<div class="cell cellHead">8</div>
-     	<div class="cell cellHead">9</div>
-     	<div class="cell cellHead">10</div>
-     	<div class="cell cellHead">11</div>
-     	<div class="cell cellHead">12</div>
-     	<div class="cell cellHead">P</div>
-     </div>
-     <div id="redRow" data-color="red">
-     	<div class="cell cellNumber" data-number="2"></div>
-     	<div class="cell cellNumber" data-number="3"></div>
-     	<div class="cell cellNumber" data-number="4"></div>
-     	<div class="cell cellNumber" data-number="5"></div>
-     	<div class="cell cellNumber" data-number="6"></div>
-     	<div class="cell cellNumber" data-number="7"></div>
-     	<div class="cell cellNumber" data-number="8"></div>
-     	<div class="cell cellNumber" data-number="9"></div>
-     	<div class="cell cellNumber" data-number="10"></div>
-     	<div class="cell cellNumber" data-number="11"></div>
-     	<div class="cell cellNumber" data-number="12"></div>
-     	<div class="cell cellPrice" data-number="p"></div>
-     </div>
-     <div id="yellowRow" data-color="yellow">
-     	<div class="cell cellNumber" data-number="2"></div>
-     	<div class="cell cellNumber" data-number="3"></div>
-     	<div class="cell cellNumber" data-number="4"></div>
-     	<div class="cell cellNumber" data-number="5"></div>
-     	<div class="cell cellNumber" data-number="6"></div>
-     	<div class="cell cellNumber" data-number="7"></div>
-     	<div class="cell cellNumber" data-number="8"></div>
-     	<div class="cell cellNumber" data-number="9"></div>
-     	<div class="cell cellNumber" data-number="10"></div>
-     	<div class="cell cellNumber" data-number="11"></div>
-     	<div class="cell cellNumber" data-number="12"></div>
-     	<div class="cell cellPrice" data-number="p"></div>
-     </div>
-     <div id="numbers1" class="numbers">
-        <div class="cell cellHead">12</div>
-        <div class="cell cellHead">11</div>
-        <div class="cell cellHead">10</div>
-        <div class="cell cellHead">9</div>
-        <div class="cell cellHead">8</div>
-        <div class="cell cellHead">7</div>
-        <div class="cell cellHead">6</div>
-        <div class="cell cellHead">5</div>
-        <div class="cell cellHead">4</div>
-        <div class="cell cellHead">3</div>
-        <div class="cell cellHead">2</div>
-        <div class="cell cellHead">P</div>
-     </div>
-     <div id="greeRow" data-color="yellow">
-        <div class="cell cellNumber" data-number="12"></div>
-        <div class="cell cellNumber" data-number="11"></div>
-        <div class="cell cellNumber" data-number="10"></div>
-        <div class="cell cellNumber" data-number="9"></div>
-        <div class="cell cellNumber" data-number="8"></div>
-        <div class="cell cellNumber" data-number="7"></div>
-        <div class="cell cellNumber" data-number="6"></div>
-        <div class="cell cellNumber" data-number="5"></div>
-        <div class="cell cellNumber" data-number="4"></div>
-        <div class="cell cellNumber" data-number="3"></div>
-        <div class="cell cellNumber" data-number="2"></div>
-        <div class="cell cellPrice" data-number="p"></div>
-     </div>
-     <div id="blueRow" data-color="blue">
-        <div class="cell cellNumber" data-number="12"></div>
-        <div class="cell cellNumber" data-number="11"></div>
-        <div class="cell cellNumber" data-number="10"></div>
-        <div class="cell cellNumber" data-number="9"></div>
-        <div class="cell cellNumber" data-number="8"></div>
-        <div class="cell cellNumber" data-number="7"></div>
-        <div class="cell cellNumber" data-number="6"></div>
-        <div class="cell cellNumber" data-number="5"></div>
-        <div class="cell cellNumber" data-number="4"></div>
-        <div class="cell cellNumber" data-number="3"></div>
-        <div class="cell cellNumber" data-number="2"></div>
-        <div class="cell cellPrice" data-number="p"></div>
-     </div>
-   </div>
-   <hr>
-   <a id="rollDices" href="#" title="Roll">Roll dices</a>
-   <div id="diceLog">
-   </div>
+    <div id="lobby">
+        <div id="messages"></div>
+        <label id="playerReadyBtn" href="#">Ready <input id="playerReady" type="checkbox"/> </label>
+        <div><a href="#" id="startGame" class="hidden">Start game</a></div>
+        <div id="playerCounter">Players ready <span id="playerCounterNumber">0</span>/4</div>
+    </div>
+    <div id="game" class="hidden">
+       <div id="table">
+         <div id="numbers1" class="numbers">
+         	<div class="cell cellHead">2</div>
+         	<div class="cell cellHead">3</div>
+         	<div class="cell cellHead">4</div>
+         	<div class="cell cellHead">5</div>
+         	<div class="cell cellHead">6</div>
+         	<div class="cell cellHead">7</div>
+         	<div class="cell cellHead">8</div>
+         	<div class="cell cellHead">9</div>
+         	<div class="cell cellHead">10</div>
+         	<div class="cell cellHead">11</div>
+         	<div class="cell cellHead">12</div>
+         	<div class="cell cellHead">P</div>
+         </div>
+         <div id="redRow" data-color="red">
+         	<div class="cell cellNumber" data-number="2"></div>
+         	<div class="cell cellNumber" data-number="3"></div>
+         	<div class="cell cellNumber" data-number="4"></div>
+         	<div class="cell cellNumber" data-number="5"></div>
+         	<div class="cell cellNumber" data-number="6"></div>
+         	<div class="cell cellNumber" data-number="7"></div>
+         	<div class="cell cellNumber" data-number="8"></div>
+         	<div class="cell cellNumber" data-number="9"></div>
+         	<div class="cell cellNumber" data-number="10"></div>
+         	<div class="cell cellNumber" data-number="11"></div>
+         	<div class="cell cellNumber" data-number="12"></div>
+         	<div class="cell cellPrice" data-number="p"></div>
+         </div>
+         <div id="yellowRow" data-color="yellow">
+         	<div class="cell cellNumber" data-number="2"></div>
+         	<div class="cell cellNumber" data-number="3"></div>
+         	<div class="cell cellNumber" data-number="4"></div>
+         	<div class="cell cellNumber" data-number="5"></div>
+         	<div class="cell cellNumber" data-number="6"></div>
+         	<div class="cell cellNumber" data-number="7"></div>
+         	<div class="cell cellNumber" data-number="8"></div>
+         	<div class="cell cellNumber" data-number="9"></div>
+         	<div class="cell cellNumber" data-number="10"></div>
+         	<div class="cell cellNumber" data-number="11"></div>
+         	<div class="cell cellNumber" data-number="12"></div>
+         	<div class="cell cellPrice" data-number="p"></div>
+         </div>
+         <div id="numbers1" class="numbers">
+            <div class="cell cellHead">12</div>
+            <div class="cell cellHead">11</div>
+            <div class="cell cellHead">10</div>
+            <div class="cell cellHead">9</div>
+            <div class="cell cellHead">8</div>
+            <div class="cell cellHead">7</div>
+            <div class="cell cellHead">6</div>
+            <div class="cell cellHead">5</div>
+            <div class="cell cellHead">4</div>
+            <div class="cell cellHead">3</div>
+            <div class="cell cellHead">2</div>
+            <div class="cell cellHead">P</div>
+         </div>
+         <div id="greeRow" data-color="yellow">
+            <div class="cell cellNumber" data-number="12"></div>
+            <div class="cell cellNumber" data-number="11"></div>
+            <div class="cell cellNumber" data-number="10"></div>
+            <div class="cell cellNumber" data-number="9"></div>
+            <div class="cell cellNumber" data-number="8"></div>
+            <div class="cell cellNumber" data-number="7"></div>
+            <div class="cell cellNumber" data-number="6"></div>
+            <div class="cell cellNumber" data-number="5"></div>
+            <div class="cell cellNumber" data-number="4"></div>
+            <div class="cell cellNumber" data-number="3"></div>
+            <div class="cell cellNumber" data-number="2"></div>
+            <div class="cell cellPrice" data-number="p"></div>
+         </div>
+         <div id="blueRow" data-color="blue">
+            <div class="cell cellNumber" data-number="12"></div>
+            <div class="cell cellNumber" data-number="11"></div>
+            <div class="cell cellNumber" data-number="10"></div>
+            <div class="cell cellNumber" data-number="9"></div>
+            <div class="cell cellNumber" data-number="8"></div>
+            <div class="cell cellNumber" data-number="7"></div>
+            <div class="cell cellNumber" data-number="6"></div>
+            <div class="cell cellNumber" data-number="5"></div>
+            <div class="cell cellNumber" data-number="4"></div>
+            <div class="cell cellNumber" data-number="3"></div>
+            <div class="cell cellNumber" data-number="2"></div>
+            <div class="cell cellPrice" data-number="p"></div>
+         </div>
+       </div>
+       <hr>
+       <a id="rollDices" href="#" title="Roll">Roll dices</a>
+       <div id="diceLog">
+       </div>
+    </div>
 </body>
 <script type="text/javascript" src="connection.js"></script>
 <script type="text/javascript" src="main.js"></script>
