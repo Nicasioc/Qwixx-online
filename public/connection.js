@@ -5,6 +5,10 @@ function Connection(serverUrl) {
 		console.debug(message.type);
 	}
 
+
+	this.conn.onclose = function(e) {
+		console.debug("Connection closed "+e.code);
+	}
 }
 
 Connection.prototype.send = function(objMsj) {

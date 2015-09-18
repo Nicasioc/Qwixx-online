@@ -28,53 +28,41 @@ wsServer.on("request", function(request) {
 	var connection = request.accept(null, request.origin);
 	console.log( "Connection open" );
 
+	var sendMessageToAll = function(msgType, msgText) {
+		var msg = {
+			type: "playersReady",
+			text: readyPlayers
+		};
+		connections.forEach(function(item, index) {
+			item.send( JSON.stringify( msg ) );
+		});
+	};	
+
 
 	connection.on("message", function(message) {
 
 		var msgJson = JSON.parse(message.utf8Data);
 
+		console.log("Message received: "+msgJson.type);
+
 		switch (msgJson.type) {
 			case "roll":
 				console.log("Dice roll");
-					var msg = {
-						type: "roll",
-						text: diceRoller.roll()
-					}
-				connections.forEach(function(item, index) {
-					item.send( JSON.stringify( msg ) );
-				})
+				sendMessageToAll("roll", diceRoller.roll());
 				break;
 
 			case "removeColor":
 				console.log("Color "+ msgJson.text +" removed");
 				diceRoller.removeColor(msgJson.text);
-				var msg = {
-					type: "closeRow",
-					text: msgJson.text
-				}
-				connections.forEach(function(item, index) {
-					item.send( JSON.stringify( msg ) );
-				})
+				sendMessageToAll("closeRow", msgJson.text);
 				break;
 			case "ready":
 				readyPlayers++;
-				var msg = {
-					type: "playersReady",
-					text: readyPlayers
-				};
-				connections.forEach(function(item, index) {
-					item.send( JSON.stringify( msg ) );
-				});
+				sendMessageToAll("playersReady", readyPlayers);
 				break;
 			case "notReady":
 				readyPlayers--;
-				var msg = {
-					type: "playersReady",
-					text: readyPlayers
-				};
-				connections.forEach(function(item, index) {
-					item.send( JSON.stringify( msg ) );
-				});
+				sendMessageToAll("playersReady", readyPlayers);
 				break;
 		}
 	})
@@ -84,9 +72,16 @@ wsServer.on("request", function(request) {
 		console.log( reasonCode +" "+description );
 		connections.splice( connections.indexOf(this), 1);
 		console.log("conections open "+ connections.length);
+		if (readyPlayers>0) {
+			readyPlayers--;
+		};
 	})
 
 	connections.push( connection );
+
+	//always send ready players count to players on connection
+	sendMessageToAll("playersReady", readyPlayers);
+
 	console.log("conections open "+ connections.length);
 
 });
