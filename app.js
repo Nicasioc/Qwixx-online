@@ -21,7 +21,8 @@ var server = app.listen(3000, function () {
 
 wsServer = new webSocketServer({
 	httpServer:server
-})
+});
+
 
 wsServer.on("request", function(request) {
 
@@ -31,12 +32,20 @@ wsServer.on("request", function(request) {
 	var sendMessageToAll = function(msgType, msgText) {
 		var msg = {
 			type: "playersReady",
-			text: readyPlayers
+			text: readyPlayers||null
 		};
 		connections.forEach(function(item, index) {
 			item.send( JSON.stringify( msg ) );
 		});
 	};	
+
+	var checkStartStatus = function(readyPlayers) {
+		if (readyPlayers>1) {
+			sendMessageToAll("readyToStartGame");
+		} else {
+			sendMessageToAll("noReadyToStartGame");
+		};
+	};
 
 
 	connection.on("message", function(message) {
@@ -59,10 +68,12 @@ wsServer.on("request", function(request) {
 			case "ready":
 				readyPlayers++;
 				sendMessageToAll("playersReady", readyPlayers);
+				checkStartStatus(readyPlayers);
 				break;
 			case "notReady":
 				readyPlayers--;
 				sendMessageToAll("playersReady", readyPlayers);
+				checkStartStatus(readyPlayers);
 				break;
 		}
 	})
@@ -74,8 +85,9 @@ wsServer.on("request", function(request) {
 		console.log("conections open "+ connections.length);
 		if (readyPlayers>0) {
 			readyPlayers--;
+			checkStartStatus(readyPlayers);
 		};
-	})
+	});
 
 	connections.push( connection );
 

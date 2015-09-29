@@ -89,6 +89,8 @@ document.getElementById('rollDices').addEventListener("click", function() {
 connection.setOnmessage( function(event) {
 	var msgJson = JSON.parse( event.data );
 
+
+
 	switch (msgJson.type) {
 		case "roll":
 			var diceLogEl = document.getElementById("diceLog");
@@ -115,7 +117,10 @@ connection.setOnmessage( function(event) {
 			} else {
 				document.getElementById("startGame").classList.add("hidden");
 			}
-
+			break;
+		case "startGame":
+			document.getElementById("game").classList.remove("hidden");
+			document.getElementById("lobby").classList.add("hidden");
 			break;
 	}
 
