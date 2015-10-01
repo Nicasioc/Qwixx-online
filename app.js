@@ -1,9 +1,12 @@
-var webSocketServer = require("websocket").server,
+var WebSocketServer = require("websocket").server,
 	express = require("express"),
-	DiceRoller = require("./DiceRoller");
+	DiceRoller = require("./DiceRoller"),
+	crypto = require('crypto');
 
-var diceRoller = new DiceRoller();
-var connections = [];
+var diceRoller = new DiceRoller(),
+	roll,
+	diceLog = [];
+var connections = {};
 var readyPlayers = 0;
 
 var app = express();
@@ -19,24 +22,35 @@ var server = app.listen(3000, function () {
 
 });
 
-wsServer = new webSocketServer({
+var wsServer = new WebSocketServer({
 	httpServer:server
 });
 
 
 wsServer.on("request", function(request) {
 
-	var connection = request.accept(null, request.origin);
+	connection = request.accept(null, request.origin);
+	connection.id = crypto.randomBytes(20).toString('hex');
+	
+	var msg = {
+			type: "playerId",
+			text: connection.id
+	};
+	
+	connection.send( JSON.stringify( msg ) );
 	console.log( "Connection open" );
+	console.log( "Player ID: " + connection.id );
+
+
 
 	var sendMessageToAll = function(msgType, msgText) {
 		var msg = {
-			type: "playersReady",
-			text: readyPlayers||null
+			type: msgType,
+			text: msgText||null
 		};
-		connections.forEach(function(item, index) {
-			item.send( JSON.stringify( msg ) );
-		});
+		for (var id in connections ) {
+			connections[id].send( JSON.stringify( msg ) );
+		}
 	};	
 
 	var checkStartStatus = function(readyPlayers) {
@@ -51,13 +65,15 @@ wsServer.on("request", function(request) {
 	connection.on("message", function(message) {
 
 		var msgJson = JSON.parse(message.utf8Data);
-
+		console.log("Player Id: " + this.id);
 		console.log("Message received: "+msgJson.type);
 
 		switch (msgJson.type) {
 			case "roll":
 				console.log("Dice roll");
-				sendMessageToAll("roll", diceRoller.roll());
+				roll = diceRoller.roll();
+				diceLog.push(roll);
+				sendMessageToAll("roll", roll);
 				break;
 
 			case "removeColor":
@@ -65,15 +81,18 @@ wsServer.on("request", function(request) {
 				diceRoller.removeColor(msgJson.text);
 				sendMessageToAll("closeRow", msgJson.text);
 				break;
-			case "ready":
-				readyPlayers++;
+			case "isReady":
+				if( msgJson.text ) {
+					readyPlayers++;
+				} else {
+					readyPlayers--;					
+				}
 				sendMessageToAll("playersReady", readyPlayers);
 				checkStartStatus(readyPlayers);
 				break;
-			case "notReady":
-				readyPlayers--;
-				sendMessageToAll("playersReady", readyPlayers);
-				checkStartStatus(readyPlayers);
+			case "startCountDown":
+				console.log("envia startGame");
+				sendMessageToAll("startGame");
 				break;
 		}
 	})
@@ -81,7 +100,7 @@ wsServer.on("request", function(request) {
 	connection.on("close", function(reasonCode, description) {
 		console.log( "Connection closed" );
 		console.log( reasonCode +" "+description );
-		connections.splice( connections.indexOf(this), 1);
+		delete connections[connection.id];
 		console.log("conections open "+ connections.length);
 		if (readyPlayers>0) {
 			readyPlayers--;
@@ -89,7 +108,7 @@ wsServer.on("request", function(request) {
 		};
 	});
 
-	connections.push( connection );
+	connections[connection.id] = connection;
 
 	//always send ready players count to players on connection
 	sendMessageToAll("playersReady", readyPlayers);

@@ -1,3 +1,4 @@
+/* global Connection */
 //http://www.nsv.de/spielregeln/qwixx-classic-english.pdf
 
 var connection = new Connection("ws://127.0.0.1:3000");
@@ -19,9 +20,9 @@ document.getElementById('playerReady').addEventListener("click", function(e) {
 	var btn = this.parentNode;
 	btn.classList.toggle("ready");
 	if ( btn.classList.contains("ready") ) {
-		connection.send( message("ready") );
+		connection.send( message("isReady", true) );
 	} else {
-		connection.send( message("notReady") );
+		connection.send( message("isReady", false) );
 	}
 });
 document.getElementById('startGame').addEventListener("click", function(e) {
@@ -65,7 +66,7 @@ function selectPriceNumber() {
 
 		connection.send( message("removeColor", this.parentNode.dataset.color) );
 
-		disableRows(cellNumberElCol, 0, cellNumberElCol.length)
+		disableRows(cellNumberElCol, 0, cellNumberElCol.length)	
 	}
 }
 
@@ -90,7 +91,9 @@ connection.setOnmessage( function(event) {
 	var msgJson = JSON.parse( event.data );
 
 
-
+	
+	console.debug(msgJson.type);
+	
 	switch (msgJson.type) {
 		case "roll":
 			var diceLogEl = document.getElementById("diceLog");
@@ -122,6 +125,10 @@ connection.setOnmessage( function(event) {
 			document.getElementById("game").classList.remove("hidden");
 			document.getElementById("lobby").classList.add("hidden");
 			break;
+		case "playerId":
+			console.debug(msgJson.text);
+			localStorage.setItem ("playerId", msgJson.text);
+			break;			
 	}
 
 })
