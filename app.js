@@ -7,7 +7,30 @@ var diceRoller = new DiceRoller(),
 	roll,
 	diceLog = [];
 var connections = {};
-var readyPlayers = 0;
+/* connections obj idea
+{
+  idG1: {
+      connections: {
+        connId1: conn,
+        connId2: conn,
+        connId3: conn,
+        connId4: conn    
+      },
+      isReady: false,
+      isPlaying: false
+  },
+  idG2: {
+      connections: {
+        connId1: conn,
+        connId2: conn,
+        connId3: conn,
+        connId4: conn    
+      },
+      isReady: false,
+      isPlaying: false
+}
+*/
+
 
 var app = express();
 
@@ -53,12 +76,19 @@ wsServer.on("request", function(request) {
 		}
 	};	
 
-	var checkStartStatus = function(readyPlayers) {
+	var checkStartStatus = function() {
+		var readyPlayers = 0;
+		for ( var connId in connections ) {
+			if(connections[connId].isReady) {
+				readyPlayers++;
+			}
+		}
 		if (readyPlayers>1) {
 			sendMessageToAll("readyToStartGame");
 		} else {
 			sendMessageToAll("noReadyToStartGame");
 		};
+		sendMessageToAll("playersReady", readyPlayers);
 	};
 
 
@@ -75,20 +105,14 @@ wsServer.on("request", function(request) {
 				diceLog.push(roll);
 				sendMessageToAll("roll", roll);
 				break;
-
 			case "removeColor":
 				console.log("Color "+ msgJson.text +" removed");
 				diceRoller.removeColor(msgJson.text);
 				sendMessageToAll("closeRow", msgJson.text);
 				break;
 			case "isReady":
-				if( msgJson.text ) {
-					readyPlayers++;
-				} else {
-					readyPlayers--;					
-				}
-				sendMessageToAll("playersReady", readyPlayers);
-				checkStartStatus(readyPlayers);
+				this.isReady = msgJson.text;
+				checkStartStatus();
 				break;
 			case "startCountDown":
 				console.log("envia startGame");
@@ -102,16 +126,13 @@ wsServer.on("request", function(request) {
 		console.log( reasonCode +" "+description );
 		delete connections[connection.id];
 		console.log("conections open "+ connections.length);
-		if (readyPlayers>0) {
-			readyPlayers--;
-			checkStartStatus(readyPlayers);
-		};
+		checkStartStatus();	
 	});
 
 	connections[connection.id] = connection;
 
 	//always send ready players count to players on connection
-	sendMessageToAll("playersReady", readyPlayers);
+	checkStartStatus();
 
 	console.log("conections open "+ connections.length);
 

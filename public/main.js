@@ -131,4 +131,8 @@ connection.setOnmessage( function(event) {
 			break;			
 	}
 
-})
+});
+
+window.onbeforeunload = function() {
+	return "Bye";
+}

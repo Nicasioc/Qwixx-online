@@ -10,3 +10,4 @@
 	- passed turn
 - end game
 	- score
+- refactor
