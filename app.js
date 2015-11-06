@@ -6,7 +6,8 @@ var WebSocketServer = require("websocket").server,
 var diceRoller = new DiceRoller(),
 	roll,
 	diceLog = [];
-var connections = {};
+var connection,
+	connections = {};
 /* connections obj idea
 {
   idG1: {
@@ -41,7 +42,7 @@ var server = app.listen(3000, function () {
   var host = server.address().address;
   var port = server.address().port;
 
-  console.log("Example app listening at http://"+host+":"+port);
+  console.log("Quixx online at http://"+host+":"+port);
 
 });
 
@@ -56,8 +57,8 @@ wsServer.on("request", function(request) {
 	connection.id = crypto.randomBytes(20).toString('hex');
 	
 	var msg = {
-			type: "playerId",
-			text: connection.id
+		type: "playerId",
+		text: connection.id
 	};
 	
 	connection.send( JSON.stringify( msg ) );
@@ -127,8 +128,17 @@ wsServer.on("request", function(request) {
 		delete connections[connection.id];
 		console.log("conections open "+ connections.length);
 		checkStartStatus();	
-	});
-
+	})
+/*	
+	//testing idea
+	var groupdIds = Object.keys(connections);
+	
+	for (var gid in connections ) {
+		if ( !connections[gid].isPlaying && !connections[gid].isFull ) {
+			connections[gid][connection.id] = connection;
+		}
+	}
+*/
 	connections[connection.id] = connection;
 
 	//always send ready players count to players on connection

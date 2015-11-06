@@ -4,15 +4,15 @@
 var connection = new Connection("ws://127.0.0.1:3000");
 
 function message(type, text) {
-		if (type) {
-			var msg = {
-				type: type,
-				text: text||null
-			}
-			return msg;
-		} else {
-			console.error("Text message must be defined");
+	if (type) {
+		var msg = {
+			type: type,
+			text: text||null
 		}
+		return msg;
+	} else {
+		console.error("Text message must be defined");
+	}
 }
 
 /* Lobby */
