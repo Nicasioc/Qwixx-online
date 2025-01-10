@@ -1,13 +1,15 @@
 # Qwixx-online
+
 ##TODO
+
 - lobby
-	- or at least waiting for another player.
+  - or at least waiting for another player.
 - turns
-	- disable actions
-	- high number starts
+  - disable actions
+  - high number starts
 - player
-	- check dice with crossed number
-	- passed turn
+  - check dice with crossed number
+  - passed turn
 - end game
-	- score
+  - score
 - refactor

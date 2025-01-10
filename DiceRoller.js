@@ -12,49 +12,46 @@
 */
 
 function DiceRoller() {
+  this.colors = ["red", "yellow", "blue", "green"];
 
-	this.colors = ["red","yellow","blue","green"];
-
-	this.log = [];
-
+  this.log = [];
 }
 
 //color STRING
-DiceRoller.prototype.removeColor = function(color) {
-	var indexColor = this.colors.indexOf(color);
-	this.colors.splice(indexColor,1);
-}
+DiceRoller.prototype.removeColor = function (color) {
+  var indexColor = this.colors.indexOf(color);
+  this.colors.splice(indexColor, 1);
+};
 
-DiceRoller.prototype.roll = function() {
+DiceRoller.prototype.roll = function () {
+  var diceRoll = function () {
+    return Math.floor(Math.random() * 6 + 1);
+  };
 
-	var diceRoll = function () {
-		return Math.floor(Math.random()*6 + 1);
-	}
+  var colorRoll = function (whiteRoll1, whiteRoll2) {
+    colorDice = {};
+    colorDice.dice = diceRoll();
+    colorDice.sum1 = colorDice.dice + whiteRoll1.dice;
+    colorDice.sum2 = colorDice.dice + whiteRoll2.dice;
+    return colorDice;
+  };
 
-	var colorRoll = function(whiteRoll1, whiteRoll2) {
-		colorDice = {}
-		colorDice.dice = diceRoll();
-		colorDice.sum1 = colorDice.dice + whiteRoll1.dice;
-		colorDice.sum2 = colorDice.dice + whiteRoll2.dice;
-		return colorDice;
-	}
+  var roll = {};
 
-	var roll = {};
+  roll.white1 = {};
+  roll.white1.dice = diceRoll();
+  roll.white2 = {};
+  roll.white2.dice = diceRoll();
+  roll.white1.sum1 = roll.white2.dice + roll.white1.dice;
+  roll.white2.sum1 = roll.white2.dice + roll.white1.dice;
 
-	roll.white1 = {}
-	roll.white1.dice = diceRoll();
-	roll.white2 = {}
-	roll.white2.dice = diceRoll();
-	roll.white1.sum1 = roll.white2.dice + roll.white1.dice;
-	roll.white2.sum1 = roll.white2.dice + roll.white1.dice;
+  for (var i = 0; i <= this.colors.length - 1; i++) {
+    roll[this.colors[i]] = colorRoll(roll.white1, roll.white2);
+  }
 
-	for (var i = 0; i <= this.colors.length-1; i++) {
-		roll[ this.colors[i] ] = colorRoll(roll.white1, roll.white2);
-	};
+  this.log.push(roll);
 
-	this.log.push(roll);
-
-	return roll;
+  return roll;
 };
 
 module.exports = DiceRoller;
