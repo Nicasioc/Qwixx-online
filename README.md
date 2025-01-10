@@ -1,6 +1,6 @@
 # Qwixx-online
 
-##TODO
+## TODO
 
 - lobby
   - or at least waiting for another player.
