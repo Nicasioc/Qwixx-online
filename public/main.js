@@ -90,7 +90,7 @@ connection.setOnmessage(function (event) {
   console.debug(msgJson.type);
 
   switch (msgJson.type) {
-    case "roll":
+    case "roll": {
       var diceLogEl = document.getElementById("diceLog");
       var diceToAppend = "";
       diceToAppend += "<div>";
@@ -105,13 +105,15 @@ connection.setOnmessage(function (event) {
       diceToAppend += "</div>";
       diceLogEl.innerHTML += diceToAppend;
       break;
-    case "closeRow":
+    }
+    case "closeRow": {
       var rowColor = document.getElementById(msgJson.text + "Row");
       var rowColorCells = rowColor.getElementsByClassName("cell");
       console.log("cerrar " + msgJson.text);
       disableRows(rowColorCells, 0, rowColorCells.length);
       break;
-    case "playersReady":
+    }
+    case "playersReady": {
       console.log(msgJson.text);
       document.getElementById("playerCounterNumber").innerHTML = msgJson.text;
 
@@ -121,14 +123,17 @@ connection.setOnmessage(function (event) {
         document.getElementById("startGame").classList.add("hidden");
       }
       break;
-    case "startGame":
+    }
+    case "startGame": {
       document.getElementById("game").classList.remove("hidden");
       document.getElementById("lobby").classList.add("hidden");
       break;
-    case "playerId":
+    }
+    case "playerId": {
       console.debug(msgJson.text);
       localStorage.setItem("playerId", msgJson.text);
       break;
+    }
   }
 });
 
