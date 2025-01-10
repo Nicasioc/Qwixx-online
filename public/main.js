@@ -98,18 +98,16 @@ connection.setOnmessage(function (event) {
   switch (msgJson.type) {
     case "roll": {
       var diceLogEl = document.getElementById("diceLog");
-      var diceToAppend = "";
-      diceToAppend += "<div>";
-      for (var index in msgJson.text) {
-        diceToAppend +=
-          '<div id="' +
-          index +
-          '" class="dice">' +
-          msgJson.text[index].dice +
-          "</div>";
+      const containerDiv = document.createElement("div");
+      for (const [index, data] of Object.entries(msgJson.text)) {
+        const diceDiv = document.createElement("div");
+        diceDiv.id = index;
+        diceDiv.className = "dice";
+        diceDiv.textContent = data.dice;
+        containerDiv.appendChild(diceDiv);
       }
-      diceToAppend += "</div>";
-      diceLogEl.innerHTML += diceToAppend;
+      diceLogEl.appendChild(containerDiv);
+
       break;
     }
     case "closeRow": {
