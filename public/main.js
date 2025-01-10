@@ -85,9 +85,10 @@ document.getElementById("rollDices").addEventListener("click", function () {
 });
 
 connection.setOnmessage(function (event) {
-  var msgJson = JSON.parse(event.data);
-
   console.debug(msgJson.type);
+
+  const msgJson =
+    event && typeof event.data === "string" ? JSON.parse(event.data) : "";
 
   switch (msgJson.type) {
     case "roll": {
