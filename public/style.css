@@ -1,68 +1,70 @@
 /* Lobby */
 #playerReadyBtn {
-	display: inline-block;
-	background-color: green;
-	color: #fff;
-	padding: 10px 20px;
-	text-decoration: none;
-	border-radius: 7px;
-	box-shadow: inset 0 0 6px #000, 2px 2px 1px #000;
-	text-shadow: 2px 2px 1px #000;
+  display: inline-block;
+  background-color: green;
+  color: #fff;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 7px;
+  box-shadow: inset 0 0 6px #000, 2px 2px 1px #000;
+  text-shadow: 2px 2px 1px #000;
 }
 #playerReadyBtn.ready {
-	background-color: red;
+  background-color: red;
 }
 
 /* Board */
 .cell {
-	width: 20px;
-	height: 20px;
-	display: inline-block;
-	background: #fff;
-	text-align: center;
-	vertical-align: top;
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  background: #fff;
+  text-align: center;
+  vertical-align: top;
 }
 
 #redRow .cell {
-	background: red;
+  background: red;
 }
 #yellowRow .cell {
-	background: yellow;
+  background: yellow;
 }
 #greenRow .cell {
-	background: green;
+  background: green;
 }
 #blueRow .cell {
-	background: blue;
+  background: blue;
 }
 .cell.disable {
-	background-color: #ddd!important;
+  background-color: #ddd !important;
 }
 
 .dice {
-	width: 20px;
-	line-height: 20px;
-	display: inline-block;
-	text-align: center;
-	vertical-align: middle;
-	border-radius: 3px;
-	margin-right: 3px;
-	margin-top: 3px;
-	border: 1px solid #000;
-	text-shadow: 1px 1px #fff;
+  width: 20px;
+  line-height: 20px;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  border-radius: 3px;
+  margin-right: 3px;
+  margin-top: 3px;
+  border: 1px solid #000;
+  text-shadow: 1px 1px #fff;
 }
 #red.dice {
-	background-color: red;
+  background-color: red;
 }
 #yellow.dice {
-	background-color: yellow;
+  background-color: yellow;
 }
 #green.dice {
-	background-color: green;
+  background-color: green;
 }
 #blue.dice {
-	background-color: blue;
+  background-color: blue;
 }
 
 /* Utils */
-.hidden {display: none;}
+.hidden {
+  display: none;
+}
