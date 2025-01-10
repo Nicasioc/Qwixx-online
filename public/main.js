@@ -17,12 +17,17 @@ function message(type, text) {
 
 /* Lobby */
 document.getElementById("playerReady").addEventListener("click", function (e) {
-  var btn = this.parentNode;
-  btn.classList.toggle("ready");
-  if (btn.classList.contains("ready")) {
-    connection.send(message("isReady", true));
-  } else {
-    connection.send(message("isReady", false));
+  try {
+    var btn = this.parentNode;
+    btn.classList.toggle("ready");
+    if (btn.classList.contains("ready")) {
+      connection.send(message("isReady", true));
+    } else {
+      connection.send(message("isReady", false));
+    }
+  } catch (error) {
+    btn.classList.remove("ready");
+    console.error("Error in playerReady", error);
   }
 });
 document.getElementById("startGame").addEventListener("click", function (e) {
