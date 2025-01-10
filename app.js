@@ -37,7 +37,7 @@ var app = express();
 app.use("/", express.static(__dirname + "/public"));
 
 /** start server */
-var server = app.listen(3000, function () {
+var server = app.listen(3000, "127.0.0.1", function () {
   var host = server.address().address;
   var port = server.address().port;
 
