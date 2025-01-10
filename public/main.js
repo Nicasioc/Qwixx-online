@@ -144,5 +144,11 @@ connection.setOnmessage(function (event) {
 });
 
 window.onbeforeunload = function () {
+  try {
+    connection.close();
+    localStorage.removeItem("playerId");
+  } catch (error) {
+    console.error("Cleanup failed:", error);
+  }
   return "Bye";
 };
